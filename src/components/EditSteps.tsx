@@ -3,15 +3,19 @@ import { type Step } from "../types/features";
 
 interface EditStepsProps {
   steps: Step[];
-  onDeleteStep: (argStep: Step) => void;
+  onDeleteStep: (argPos: number) => void;
 }
 
-function EditSteps({ steps }: EditStepsProps) {
+function EditSteps({ steps, onDeleteStep }: EditStepsProps) {
   return (
     <div>
       <ul>
         {steps?.map((step) => (
-          <EditStep step={step} />
+          <EditStep
+            key={step.pos}
+            step={step}
+            handleDeleteStep={onDeleteStep}
+          />
         ))}
       </ul>
     </div>

@@ -27,8 +27,15 @@ function App() {
     }
   };
 
-  const handleDeleteStep = (argStep: Step) => {
-    setSteps(steps.filter((step) => step.pos != argStep.pos));
+  const handleDeleteStep = (argPos: number) => {
+    const newSteps = steps.flatMap((step) => {
+      const { pos } = step;
+      if (pos === argPos) {
+        return [];
+      }
+      return pos < argPos ? step : { ...step, pos: pos - 1 };
+    });
+    setSteps(newSteps);
   };
 
   return (
