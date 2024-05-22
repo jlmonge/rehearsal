@@ -64,20 +64,21 @@ function App() {
           handleOpenSidebar={handleOpenSidebar}
           handleOpenSettings={handleOpenSettings}
         />
-        <main>
+        <main className="flex flex-col gap-4 p-4">
           <h1 className="text-xl">Rehearsal 1</h1>
 
           <input
             // TODO 2: component-ize repeating logic
             type="text"
             placeholder="Next up..."
+            className="bg-slate-100 focus:bg-white focus:border-slate-400 transition-colors outline-none border-b-2 p-1 max-w-sm"
             value={stepInput}
             onChange={(e) => setStepInput(e.target.value)}
             onKeyUp={(e) => handleInputEnter(e)}
             // TODO: add required, unstyle
           />
           <div>
-            <ul>
+            <ul className="flex flex-col gap-2">
               {steps?.map((step) => (
                 <EditStep
                   key={step.pos}

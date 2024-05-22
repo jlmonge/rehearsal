@@ -35,12 +35,13 @@ function EditStep({ step, handleDeleteStep, handleUpdateStep }: EditStepProps) {
   };
 
   return (
-    <li className="flex items-center">
+    <li className="flex items-center gap-4 max-w-sm">
       <span>{step.pos}</span>
 
       {isEditingText ? (
         <input
           // TODO 2: component-ize repeating logic
+          className="flex-1"
           type="text"
           value={textInput}
           onChange={(e) => setTextInput(e.target.value)}
@@ -49,11 +50,16 @@ function EditStep({ step, handleDeleteStep, handleUpdateStep }: EditStepProps) {
           autoFocus
         />
       ) : (
-        <span onDoubleClick={handleStartEditing}>{step.text}</span>
+        <span
+          className="flex-1"
+          onDoubleClick={handleStartEditing}
+        >
+          {step.text}
+        </span>
       )}
 
       <button
-        className="text-slate-500 text-sm select-none"
+        className="text-slate-500 text-lg px-1 select-none"
         onClick={() => handleDeleteStep(step.pos)}
       >
         X
