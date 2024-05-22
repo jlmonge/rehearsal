@@ -21,10 +21,7 @@ function EditStep({ step, handleDeleteStep, handleUpdateStep }: EditStepProps) {
   };
 
   return (
-    <li
-      className="flex"
-      onDoubleClick={() => handleDeleteStep(step.pos)}
-    >
+    <li className="flex items-center">
       <span>{step.pos}</span>
 
       {isEditingText ? (
@@ -36,8 +33,15 @@ function EditStep({ step, handleDeleteStep, handleUpdateStep }: EditStepProps) {
           onKeyUp={(e) => handleInputEnter(e)}
         />
       ) : (
-        <span onClick={() => setIsEditingText(true)}>{step.text}</span>
+        <span onDoubleClick={() => setIsEditingText(true)}>{step.text}</span>
       )}
+
+      <span
+        className="text-slate-500 text-sm"
+        onClick={() => handleDeleteStep(step.pos)}
+      >
+        X
+      </span>
 
       {/* <span>{isEditingText.toString()}</span> */}
     </li>
