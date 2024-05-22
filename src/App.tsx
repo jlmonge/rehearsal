@@ -89,6 +89,7 @@ function App() {
             </ul>
             {/* <span>debug: {JSON.stringify(steps)}</span> */}
           </div>
+          <span>Double click to edit step</span>
         </main>
       </div>
     </div>

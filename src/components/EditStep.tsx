@@ -1,5 +1,6 @@
-import { KeyboardEvent, useState } from "react";
+import { KeyboardEvent, useRef, useState } from "react";
 import { Step } from "../types/features";
+import { useOnClickOutside } from "../hooks/useOnClickOutside";
 
 interface EditStepProps {
   step: Step;
@@ -10,6 +11,19 @@ interface EditStepProps {
 function EditStep({ step, handleDeleteStep, handleUpdateStep }: EditStepProps) {
   const [isEditingText, setIsEditingText] = useState(false);
   const [textInput, setTextInput] = useState(step.text);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleClickOutsideWhileEditing = () => {
+    setIsEditingText(false);
+    console.log("you clicked outside while editing");
+  };
+
+  const handleStartEditing = () => {
+    setIsEditingText(true);
+    // inputRef.current?.focus();
+  };
+
+  useOnClickOutside(inputRef, handleClickOutsideWhileEditing);
 
   const handleInputEnter = (e: KeyboardEvent<HTMLInputElement>) => {
     const key = e.key;
@@ -31,18 +45,19 @@ function EditStep({ step, handleDeleteStep, handleUpdateStep }: EditStepProps) {
           value={textInput}
           onChange={(e) => setTextInput(e.target.value)}
           onKeyUp={(e) => handleInputEnter(e)}
+          ref={inputRef}
+          autoFocus
         />
       ) : (
-        <span onDoubleClick={() => setIsEditingText(true)}>{step.text}</span>
+        <span onDoubleClick={handleStartEditing}>{step.text}</span>
       )}
 
-      <span
-        className="text-slate-500 text-sm"
+      <button
+        className="text-slate-500 text-sm select-none"
         onClick={() => handleDeleteStep(step.pos)}
       >
         X
-      </span>
-
+      </button>
       {/* <span>{isEditingText.toString()}</span> */}
     </li>
   );
