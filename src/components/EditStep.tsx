@@ -1,6 +1,7 @@
 import { KeyboardEvent, useRef, useState } from "react";
 import { Step } from "../types/features";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
+import { useAutosizeTextArea } from "../hooks/useAutosizeTextArea";
 
 interface EditStepProps {
   step: Step;
@@ -11,7 +12,9 @@ interface EditStepProps {
 function EditStep({ step, handleDeleteStep, handleUpdateStep }: EditStepProps) {
   const [isEditingText, setIsEditingText] = useState(false);
   const [textInput, setTextInput] = useState(step.text);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  useAutosizeTextArea(inputRef, textInput);
 
   const handleClickOutsideWhileEditing = () => {
     setIsEditingText(false);
@@ -25,7 +28,7 @@ function EditStep({ step, handleDeleteStep, handleUpdateStep }: EditStepProps) {
 
   useOnClickOutside(inputRef, handleClickOutsideWhileEditing);
 
-  const handleInputEnter = (e: KeyboardEvent<HTMLInputElement>) => {
+  const handleInputEnter = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     const key = e.key;
 
     if (textInput.trim() && key === "Enter") {
@@ -35,14 +38,13 @@ function EditStep({ step, handleDeleteStep, handleUpdateStep }: EditStepProps) {
   };
 
   return (
-    <li className="flex items-center gap-4 max-w-sm">
+    <li className="flex items-center gap-4 max-w-screen-sm">
       <span>{step.pos}</span>
 
       {isEditingText ? (
-        <input
+        <textarea
           // TODO 2: component-ize repeating logic
           className="flex-1"
-          type="text"
           value={textInput}
           onChange={(e) => setTextInput(e.target.value)}
           onKeyUp={(e) => handleInputEnter(e)}
@@ -51,7 +53,7 @@ function EditStep({ step, handleDeleteStep, handleUpdateStep }: EditStepProps) {
         />
       ) : (
         <span
-          className="flex-1"
+          className="flex-1 overflow-anywhere"
           onDoubleClick={handleStartEditing}
         >
           {step.text}

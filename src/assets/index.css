@@ -3,3 +3,8 @@
 @tailwind utilities;
 
 /* this file is styling HTML tags */
+@layer utilities {
+  .overflow-anywhere {
+    overflow-wrap: anywhere;
+  }
+}

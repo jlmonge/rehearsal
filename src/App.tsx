@@ -18,7 +18,7 @@ function App() {
   };
 
   const handleAddStep = (argStep: Step) => {
-    setSteps([argStep, ...steps]);
+    setSteps([...steps, argStep]);
   };
 
   const handleInputEnter = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -72,14 +72,14 @@ function App() {
             // TODO 2: component-ize repeating logic
             type="text"
             placeholder="Next up..."
-            className="bg-slate-100 focus:bg-white focus:border-slate-400 transition-colors outline-none border-b-2 p-1 max-w-sm"
+            className="bg-slate-100 focus:bg-white focus:border-slate-400 transition-colors outline-none border-b-2 p-1 max-w-screen-sm"
             value={stepInput}
             onChange={(e) => setStepInput(e.target.value)}
             onKeyUp={(e) => handleInputEnter(e)}
             // TODO: add required, unstyle
           />
           <div>
-            <ul className="flex flex-col gap-2">
+            <ul className="flex flex-col-reverse gap-2">
               {steps?.map((step) => (
                 <EditStep
                   key={step.pos}
@@ -89,7 +89,9 @@ function App() {
                 />
               ))}
             </ul>
-            <span>debug: {JSON.stringify(steps)}</span>
+            <span className="overflow-anywhere">
+              debug: {JSON.stringify(steps)}
+            </span>
           </div>
           <span>Double click to edit step</span>
         </main>
