@@ -4,9 +4,11 @@ import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import { Step } from "./types/features";
 import EditStep from "./components/EditStep";
+import Settings from "./components/Settings";
 
 function App() {
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
+  const [isOpenSettings, setIsOpenSettings] = useState(false);
   const [stepInput, setStepInput] = useState("");
   const [steps, setSteps] = useState<Step[]>([]);
 
@@ -48,11 +50,20 @@ function App() {
     setSteps(newSteps);
   };
 
+  const handleOpenSettings = () => {
+    setIsOpenSettings(!isOpenSettings);
+    console.log(`settings open? ${isOpenSettings.toString()}`);
+  };
+
   return (
     <div className="flex">
       {isOpenSidebar && <Sidebar />}
+      {isOpenSettings && <Settings />}
       <div className="w-full">
-        <Header onOpenSidebar={handleOpenSidebar} />
+        <Header
+          handleOpenSidebar={handleOpenSidebar}
+          handleOpenSettings={handleOpenSettings}
+        />
         <main>
           <h1 className="text-xl">Rehearsal 1</h1>
 
