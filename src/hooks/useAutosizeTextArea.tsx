@@ -2,7 +2,8 @@ import { RefObject, useEffect } from "react";
 
 export function useAutosizeTextArea(
   ref: RefObject<HTMLTextAreaElement>,
-  value: string
+  value: string,
+  loadingCondition?: boolean
 ) {
   useEffect(() => {
     const node = ref.current;
@@ -12,5 +13,5 @@ export function useAutosizeTextArea(
 
       node.style.height = scrollHeight + "px";
     }
-  }, [ref, value]);
+  }, [ref, value, loadingCondition]);
 }

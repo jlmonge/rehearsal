@@ -14,7 +14,7 @@ function EditStep({ step, handleDeleteStep, handleUpdateStep }: EditStepProps) {
   const [textInput, setTextInput] = useState(step.text);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  useAutosizeTextArea(inputRef, textInput);
+  useAutosizeTextArea(inputRef, textInput, isEditingText);
 
   const handleClickOutsideWhileEditing = () => {
     setIsEditingText(false);
