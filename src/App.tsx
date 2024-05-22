@@ -2,8 +2,8 @@ import { KeyboardEvent, useState } from "react";
 // import "./assets/App.css";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
-import EditSteps from "./components/EditSteps";
 import { Step } from "./types/features";
+import EditStep from "./components/EditStep";
 
 function App() {
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
@@ -27,6 +27,16 @@ function App() {
     }
   };
 
+  const handleUpdateStep = (argStep: Step) => {
+    const newSteps = steps.map((step) => {
+      if (step.pos === argStep.pos) {
+        return argStep;
+      }
+      return step;
+    });
+    setSteps(newSteps);
+  };
+
   const handleDeleteStep = (argPos: number) => {
     const newSteps = steps.flatMap((step) => {
       const { pos } = step;
@@ -45,7 +55,9 @@ function App() {
         <Header onOpenSidebar={handleOpenSidebar} />
         <main>
           <h1 className="text-xl">Rehearsal 1</h1>
+
           <input
+            // TODO 2: component-ize repeating logic
             type="text"
             placeholder="Next up..."
             value={stepInput}
@@ -53,10 +65,19 @@ function App() {
             onKeyUp={(e) => handleInputEnter(e)}
             // TODO: add required, unstyle
           />
-          <EditSteps
-            steps={steps}
-            onDeleteStep={handleDeleteStep}
-          />
+          <div>
+            <ul>
+              {steps?.map((step) => (
+                <EditStep
+                  key={step.pos}
+                  step={step}
+                  handleDeleteStep={handleDeleteStep}
+                  handleUpdateStep={handleUpdateStep}
+                />
+              ))}
+            </ul>
+            {/* <span>debug: {JSON.stringify(steps)}</span> */}
+          </div>
         </main>
       </div>
     </div>
