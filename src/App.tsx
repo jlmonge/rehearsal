@@ -5,12 +5,13 @@ import Sidebar from "./components/Sidebar";
 import { Step } from "./types/features";
 import EditStep from "./components/EditStep";
 import Settings from "./components/Settings";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 
 function App() {
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
   const [isOpenSettings, setIsOpenSettings] = useState(false);
-  const [stepInput, setStepInput] = useState("");
-  const [steps, setSteps] = useState<Step[]>([]);
+  const [stepInput, setStepInput] = useLocalStorage("input", "");
+  const [steps, setSteps] = useLocalStorage("steps", [] as Step[]);
 
   const handleOpenSidebar = () => {
     setIsOpenSidebar(!isOpenSidebar);
@@ -88,7 +89,7 @@ function App() {
                 />
               ))}
             </ul>
-            {/* <span>debug: {JSON.stringify(steps)}</span> */}
+            <span>debug: {JSON.stringify(steps)}</span>
           </div>
           <span>Double click to edit step</span>
         </main>
