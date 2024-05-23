@@ -66,13 +66,11 @@ function App() {
           handleOpenSettings={handleOpenSettings}
         />
         <main className="flex flex-col gap-4 p-4">
-          <h1 className="text-xl">Rehearsal 1</h1>
-
           <input
             // TODO 2: component-ize repeating logic
             type="text"
             placeholder="Next up..."
-            className="bg-slate-100 focus:bg-white focus:border-slate-400 transition-colors outline-none border-b-2 p-1 max-w-screen-sm"
+            className="bg-slate-50 focus:bg-white focus:border-slate-400 transition-colors outline-none border-slate-300 border-b-2 p-1 max-w-screen-sm"
             value={stepInput}
             onChange={(e) => setStepInput(e.target.value)}
             onKeyUp={(e) => handleInputEnter(e)}
@@ -89,9 +87,9 @@ function App() {
                 />
               ))}
             </ul>
-            <span className="overflow-anywhere">
+            {/* <span className="overflow-anywhere">
               debug: {JSON.stringify(steps)}
-            </span>
+            </span> */}
           </div>
           <span>Double click to edit step</span>
         </main>
