@@ -1,3 +1,4 @@
+import DayOfWeekPicker from "./ui/DayOfWeekPicker";
 import Switch from "./ui/Switch";
 
 const settingsLabels: { id: string; name: string }[] = [
@@ -16,11 +17,12 @@ function Settings() {
     <div className="fixed bottom-0 inset-x-0 h-48 bg-slate-300">
       <h2>current rehearsal settings</h2>
       {settingsLabels.map(({ id, name }) => (
-        <div>
+        <div key={id}>
           <label htmlFor={id}>{name}</label>
           <Switch id={id} />
         </div>
       ))}
+      <DayOfWeekPicker />
     </div>
   );
 }
