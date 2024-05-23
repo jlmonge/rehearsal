@@ -9,7 +9,7 @@ interface Day {
 const daysOfWeek: Day[] = [
   {
     id: 0,
-    shorthand: "S",
+    shorthand: "Su",
     name: "Sunday",
   },
   {
@@ -50,7 +50,14 @@ interface DayButtonProps {
 }
 
 function DayButton({ shorthand, onDayClick }: DayButtonProps) {
-  return <button onClick={onDayClick}>{shorthand}</button>;
+  return (
+    <button
+      className="bg-slate-100 min-w-7 min-h-8 rounded-md shadow-md"
+      onClick={onDayClick}
+    >
+      {shorthand}
+    </button>
+  );
 }
 
 function DayOfWeekPicker() {
@@ -67,7 +74,7 @@ function DayOfWeekPicker() {
   } else if (selectedIdsArray.toString() === [0, 6].toString()) {
     selectedShorthandsString = "Weekends";
   } else {
-    selectedShorthandsString = selected.map((sDay) => sDay.shorthand).join("");
+    selectedShorthandsString = selected.map((sDay) => sDay.shorthand).join(" ");
   }
 
   const handleDayClick = (id: number) => {
@@ -90,8 +97,8 @@ function DayOfWeekPicker() {
   };
 
   return (
-    <div>
-      <div>
+    <div className="inline-flex flex-col items-center">
+      <ol className="flex gap-x-1">
         {daysOfWeek.map((day) => (
           <DayButton
             shorthand={day.shorthand}
@@ -99,10 +106,10 @@ function DayOfWeekPicker() {
             key={day.id}
           />
         ))}
-      </div>
-      <span>{selectedShorthandsString} selected</span>
-      <br />
-      <span>{JSON.stringify(selected)} selected</span>
+      </ol>
+      <span className="text-gray-500">{selectedShorthandsString} selected</span>
+      {/* <br />
+      <span>{JSON.stringify(selected)} selected</span> */}
     </div>
   );
 }
