@@ -1,4 +1,5 @@
 import { MouseEventHandler, useState } from "react";
+import useNow from "../../hooks/useNow";
 
 interface Day {
   id: number;
@@ -47,21 +48,34 @@ const daysOfWeek: Day[] = [
 interface DayButtonProps {
   shorthand: string;
   onDayClick: MouseEventHandler<HTMLButtonElement>;
+  isCurrentDay: boolean;
 }
 
-function DayButton({ shorthand, onDayClick }: DayButtonProps) {
-  return (
+function DayButton({ shorthand, onDayClick, isCurrentDay }: DayButtonProps) {
+  const buttonJSX = (
     <button
-      className="bg-slate-100 min-w-7 min-h-8 rounded-md shadow-md"
+      className="bg-slate-100 w-7 h-8 rounded-md shadow-md"
       onClick={onDayClick}
     >
       {shorthand}
     </button>
   );
+
+  if (isCurrentDay) {
+    return (
+      <div className="flex flex-col gap-y-2 items-center">
+        {buttonJSX}
+        <div className="bg-gray-800 size-2 rounded-full" />
+      </div>
+    );
+  }
+
+  return <>{buttonJSX}</>;
 }
 
 function DayOfWeekPicker() {
   const [selected, setSelected] = useState<Day[]>([]);
+  const currentDay = useNow(1, "day");
 
   let selectedShorthandsString: string;
   const selectedIdsArray = selected.map((sDay) => sDay.id);
@@ -104,6 +118,7 @@ function DayOfWeekPicker() {
             shorthand={day.shorthand}
             onDayClick={() => handleDayClick(day.id)}
             key={day.id}
+            isCurrentDay={day.id === currentDay.getDay()}
           />
         ))}
       </ol>
