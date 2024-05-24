@@ -21,7 +21,7 @@ function Header({ handleOpenSidebar, handleOpenSettings }: HeaderProps) {
         <h1 className="flex items-center shadow-md">
           <input
             type="text"
-            className="bg-gray-200 px-2"
+            className="bg-gray-200 px-1"
             placeholder="Rehearsal name"
           />
         </h1>
