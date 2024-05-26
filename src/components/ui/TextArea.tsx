@@ -12,7 +12,6 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             "flex-1 resize-none p-1 border-slate-400 border-b-2 focus:outline-none no-scrollbar",
             className
           )}
-          autoFocus
           rows={1}
           ref={ref}
           {...props}

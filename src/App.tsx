@@ -99,6 +99,7 @@ function App() {
               onChange={(e) => setStepInput(e.target.value)}
               onKeyDown={(e) => handleInputEnter(e)}
               ref={textAreaRef}
+              autoFocus
             />
           )}
 

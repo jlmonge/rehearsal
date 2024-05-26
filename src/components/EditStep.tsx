@@ -60,7 +60,6 @@ function EditStep({
       onChange={handleSetTextInput}
       onKeyDown={(e) => handleInputEnter(e)}
       ref={textAreaRef}
-      // autoFocus
     />
   );
 
@@ -71,7 +70,7 @@ function EditStep({
         onChange={handleSetTextInput}
         onKeyDown={(e) => handleInputEnter(e)}
         ref={isEditingView ? textAreaRef : textAreaClickOutsideRef}
-        // autoFocus
+        autoFocus
       />
     ) : (
       <span
