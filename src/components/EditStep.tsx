@@ -3,12 +3,14 @@ import { Step } from "../types/features";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
 import { useAutosizeTextArea } from "../hooks/useAutosizeTextArea";
 import TextArea from "./ui/TextArea";
+import { cn } from "../utils/cn";
 
 interface EditStepProps {
   step: Step;
   isEditingView: boolean;
   handleDeleteStep: (argPos: number) => void;
   handleUpdateStep: (argStep: Step) => void;
+  currentStep: number;
 }
 
 function EditStep({
@@ -16,6 +18,7 @@ function EditStep({
   isEditingView,
   handleDeleteStep,
   handleUpdateStep,
+  currentStep,
 }: EditStepProps) {
   const [isEditingText, setIsEditingText] = useState(false);
   const [textInput, setTextInput] = useState(step.text);
@@ -74,7 +77,10 @@ function EditStep({
       />
     ) : (
       <span
-        className="flex-1 overflow-anywhere p-1"
+        className={cn("flex-1 overflow-anywhere p-1", {
+          "text-4xl transition-all duration-500": step.pos === currentStep + 1,
+          // "line-through": step.pos < currentStep + 1,
+        })}
         onDoubleClick={handleStartEditing}
       >
         {step.text}
@@ -96,8 +102,22 @@ function EditStep({
   }
 
   return (
-    <li className="group flex items-center gap-4 max-w-sm">
-      <span className="flex items-center justify-center bg-zinc-300 rounded-full w-8 h-8 group-hover:bg-zinc-400 group-hover:text-zinc-50">
+    <li
+      className={cn(
+        "group flex items-center gap-4 max-w-sm transition-opacity",
+        {
+          "opacity-70": currentStep + 1 > step.pos,
+        }
+      )}
+    >
+      <span
+        className={cn(
+          "flex items-center justify-center bg-zinc-300 rounded-full w-8 h-8 group-hover:bg-zinc-400 group-hover:text-zinc-50",
+          {
+            "bg-green-400 group-hover:bg-green-500": currentStep + 1 > step.pos,
+          }
+        )}
+      >
         {step.pos}
       </span>
       {stepTextRegion}

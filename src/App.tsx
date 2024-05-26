@@ -13,7 +13,7 @@ function App() {
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
   const [isOpenSettings, setIsOpenSettings] = useState(false);
   const [stepInput, setStepInput] = useLocalStorage("input", "");
-  // const [curStep, setCurStep] = useLocalStorage("currentStep", 0)
+  const [currentStep, setCurrentStep] = useLocalStorage("currentStep", 0);
   const [steps, setSteps] = useLocalStorage("steps", [] as Step[]);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [isEditingView, setIsEditingView] = useState(false);
@@ -75,6 +75,18 @@ function App() {
     console.log(`settings open? ${isOpenSettings.toString()}`);
   };
 
+  const handlePrevStep = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const handleNextStep = () => {
+    if (currentStep < steps.length) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
   return (
     <div className="flex">
       {isOpenSidebar && <Sidebar />}
@@ -87,7 +99,7 @@ function App() {
           handleOpenEditingView={handleOpenEditingView}
         />
         <main className="flex flex-col gap-4 p-4 items-start">
-          {isEditingView && (
+          {isEditingView ? (
             <TextArea
               placeholder={
                 steps.length
@@ -101,6 +113,12 @@ function App() {
               ref={textAreaRef}
               autoFocus
             />
+          ) : (
+            <div className="flex">
+              <button onClick={handlePrevStep}>Previous</button>
+              <button onClick={handleNextStep}>Next</button>
+              {currentStep === steps.length && <p>You finished</p>}
+            </div>
           )}
 
           <ul className="flex flex-col-reverse gap-2 w-full">
@@ -111,12 +129,12 @@ function App() {
                 handleDeleteStep={handleDeleteStep}
                 handleUpdateStep={handleUpdateStep}
                 isEditingView={isEditingView}
+                currentStep={currentStep}
               />
             ))}
           </ul>
-          <span className="overflow-anywhere">
-            debug: {JSON.stringify(steps)}
-          </span>
+          <p className="overflow-anywhere">debug: currentStep: {currentStep}</p>
+          <p className="overflow-anywhere">debug: {JSON.stringify(steps)}</p>
           <span>Double click to edit step</span>
           <button onClick={handleClearSteps}>Click to clear steps</button>
         </main>
