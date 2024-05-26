@@ -13,8 +13,10 @@ function App() {
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
   const [isOpenSettings, setIsOpenSettings] = useState(false);
   const [stepInput, setStepInput] = useLocalStorage("input", "");
+  // const [curStep, setCurStep] = useLocalStorage("currentStep", 0)
   const [steps, setSteps] = useLocalStorage("steps", [] as Step[]);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const [isEditingView, setIsEditingView] = useState(false);
 
   useAutosizeTextArea(textAreaRef, stepInput);
 
@@ -22,6 +24,10 @@ function App() {
 
   const handleOpenSidebar = () => {
     setIsOpenSidebar(!isOpenSidebar);
+  };
+
+  const handleOpenEditingView = () => {
+    setIsEditingView(!isEditingView);
   };
 
   const handleAddStep = (argStep: Step) => {
@@ -35,11 +41,9 @@ function App() {
     if (key === "Enter") {
       e.preventDefault();
       if (trimmedStepInput) {
-        console.log("not empty input");
         setStepInput("");
         handleAddStep({ text: trimmedStepInput, pos: steps.length + 1 });
       } else {
-        console.log("empty input");
         setStepInput(trimmedStepInput);
       }
     }
@@ -79,20 +83,25 @@ function App() {
         <Header
           handleOpenSidebar={handleOpenSidebar}
           handleOpenSettings={handleOpenSettings}
+          isEditingView={isEditingView}
+          handleOpenEditingView={handleOpenEditingView}
         />
         <main className="flex flex-col gap-4 p-4 items-start">
-          <TextArea
-            placeholder={
-              steps.length
-                ? "Next up..."
-                : "Enter your first step to get started"
-            }
-            className="bg-slate-50 focus:bg-white focus:border-slate-400 transition-colors outline-none border-slate-300 border-b-2 p-1 w-full max-w-screen-sm"
-            value={stepInput}
-            onChange={(e) => setStepInput(e.target.value)}
-            onKeyDown={(e) => handleInputEnter(e)}
-            ref={textAreaRef}
-          />
+          {isEditingView && (
+            <TextArea
+              placeholder={
+                steps.length
+                  ? "Next up..."
+                  : "Enter your first step to get started"
+              }
+              className="bg-slate-50 focus:bg-white focus:border-slate-400 transition-colors outline-none border-slate-300 border-b-2 p-1 w-full max-w-screen-sm"
+              value={stepInput}
+              onChange={(e) => setStepInput(e.target.value)}
+              onKeyDown={(e) => handleInputEnter(e)}
+              ref={textAreaRef}
+            />
+          )}
+
           <ul className="flex flex-col-reverse gap-2 w-full">
             {steps?.map((step) => (
               <EditStep
@@ -100,6 +109,7 @@ function App() {
                 step={step}
                 handleDeleteStep={handleDeleteStep}
                 handleUpdateStep={handleUpdateStep}
+                isEditingView={isEditingView}
               />
             ))}
           </ul>

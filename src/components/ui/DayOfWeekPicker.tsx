@@ -106,8 +106,6 @@ function DayOfWeekPicker() {
       });
       setSelected(sorted);
     }
-
-    console.log(`you clicked ${id}`);
   };
 
   return (

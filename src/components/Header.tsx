@@ -1,12 +1,18 @@
 // import { useState } from "react";
 
 interface HeaderProps {
+  isEditingView: boolean;
   handleOpenSidebar: () => void;
   handleOpenSettings: () => void;
-  // title: string
+  handleOpenEditingView: () => void;
 }
 
-function Header({ handleOpenSidebar, handleOpenSettings }: HeaderProps) {
+function Header({
+  handleOpenSidebar,
+  handleOpenSettings,
+  handleOpenEditingView,
+  isEditingView,
+}: HeaderProps) {
   // const [title, setTitle] = useState();
 
   return (
@@ -27,6 +33,11 @@ function Header({ handleOpenSidebar, handleOpenSettings }: HeaderProps) {
         </h1>
         <div className="flex flex-row flex-1 px-2 py-4 shadow-md">
           <button onClick={handleOpenSettings}>Settings</button>
+        </div>
+        <div className="flex flex-row flex-1 px-2 py-4 shadow-md">
+          <button onClick={handleOpenEditingView}>
+            {!isEditingView ? "Edit" : "Save"}
+          </button>
         </div>
       </div>
     </header>
