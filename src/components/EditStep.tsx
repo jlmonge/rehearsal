@@ -1,4 +1,4 @@
-import { KeyboardEvent, useRef, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useRef, useState } from "react";
 import { Step } from "../types/features";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
 import { useAutosizeTextArea } from "../hooks/useAutosizeTextArea";
@@ -29,12 +29,24 @@ function EditStep({ step, handleDeleteStep, handleUpdateStep }: EditStepProps) {
 
   useOnClickOutside(textAreaRef, handleClickOutsideWhileEditing);
 
+  const handleSetTextInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    console.log(`input is changing: ${e.target.value}`);
+    setTextInput(e.target.value);
+  };
+
   const handleInputEnter = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     const key = e.key;
 
-    if (textInput.trim() && key === "Enter") {
-      handleUpdateStep({ ...step, text: textInput });
-      setIsEditingText(false);
+    if (key === "Enter") {
+      e.preventDefault();
+      const trimmedTextInput = textInput.trim();
+      console.log(textInput, trimmedTextInput);
+
+      if (trimmedTextInput) {
+        console.log(`passed condition ${trimmedTextInput}`);
+        handleUpdateStep({ ...step, text: trimmedTextInput });
+        setIsEditingText(false);
+      }
     }
   };
 
@@ -47,8 +59,8 @@ function EditStep({ step, handleDeleteStep, handleUpdateStep }: EditStepProps) {
       {isEditingText ? (
         <TextArea
           value={textInput}
-          onChange={(e) => setTextInput(e.target.value)}
-          onKeyUp={(e) => handleInputEnter(e)}
+          onChange={handleSetTextInput}
+          onKeyDown={(e) => handleInputEnter(e)}
           ref={textAreaRef}
         />
       ) : (

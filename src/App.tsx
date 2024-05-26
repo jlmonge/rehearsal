@@ -30,10 +30,18 @@ function App() {
 
   const handleInputEnter = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     const key = e.key;
+    const trimmedStepInput = stepInput.trim();
 
-    if (stepInput.trim() && key === "Enter") {
-      handleAddStep({ text: stepInput, pos: steps.length + 1 });
-      setStepInput("");
+    if (key === "Enter") {
+      e.preventDefault();
+      if (trimmedStepInput) {
+        console.log("not empty input");
+        setStepInput("");
+        handleAddStep({ text: trimmedStepInput, pos: steps.length + 1 });
+      } else {
+        console.log("empty input");
+        setStepInput(trimmedStepInput);
+      }
     }
   };
 
@@ -79,10 +87,10 @@ function App() {
                 ? "Next up..."
                 : "Enter your first step to get started"
             }
-            className="bg-slate-50 focus:bg-white focus:border-slate-400 transition-colors outline-none border-slate-300 border-b-2 p-1 max-w-screen-sm"
+            className="bg-slate-50 focus:bg-white focus:border-slate-400 transition-colors outline-none border-slate-300 border-b-2 p-1 w-full max-w-screen-sm"
             value={stepInput}
             onChange={(e) => setStepInput(e.target.value)}
-            onKeyUp={(e) => handleInputEnter(e)}
+            onKeyDown={(e) => handleInputEnter(e)}
             ref={textAreaRef}
           />
           <ul className="flex flex-col-reverse gap-2 w-full">
@@ -95,9 +103,9 @@ function App() {
               />
             ))}
           </ul>
-          {/* <span className="overflow-anywhere">
-              debug: {JSON.stringify(steps)}
-            </span> */}
+          <span className="overflow-anywhere">
+            debug: {JSON.stringify(steps)}
+          </span>
           <span>Double click to edit step</span>
           <button onClick={handleClearSteps}>Click to clear steps</button>
         </main>
