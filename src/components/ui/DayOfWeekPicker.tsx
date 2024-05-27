@@ -1,55 +1,30 @@
 import { MouseEventHandler } from "react";
 import useNow from "../../hooks/useNow";
-import { Day } from '../../types/features';
-
-const daysOfWeek: Day[] = [
-  {
-    id: 0,
-    shorthand: "Su",
-    name: "Sunday",
-  },
-  {
-    id: 1,
-    shorthand: "M",
-    name: "Monday",
-  },
-  {
-    id: 2,
-    shorthand: "Tu",
-    name: "Tuesday",
-  },
-  {
-    id: 3,
-    shorthand: "W",
-    name: "Wednesday",
-  },
-  {
-    id: 4,
-    shorthand: "Th",
-    name: "Thursday",
-  },
-  {
-    id: 5,
-    shorthand: "F",
-    name: "Friday",
-  },
-  {
-    id: 6,
-    shorthand: "Sa",
-    name: "Saturday",
-  },
-];
+import { Day } from "../../types/features";
+import { cn } from "../../utils/cn";
+import { DAYS_OF_WEEK } from "../../utils/variables";
 
 interface DayButtonProps {
   shorthand: string;
-  onDayClick: MouseEventHandler<HTMLButtonElement>;
   isCurrentDay: boolean;
+  isSelected: boolean;
+  onDayClick: MouseEventHandler<HTMLButtonElement>;
 }
 
-function DayButton({ shorthand, onDayClick, isCurrentDay }: DayButtonProps) {
+function DayButton({
+  shorthand,
+  isCurrentDay,
+  isSelected,
+  onDayClick,
+}: DayButtonProps) {
   const buttonJSX = (
     <button
-      className="bg-slate-100 w-7 h-8 rounded-md shadow-md"
+      className={cn(
+        "bg-slate-100 w-7 h-8 rounded-md shadow-md transition-colors",
+        {
+          "bg-green-400": isSelected,
+        }
+      )}
       onClick={onDayClick}
     >
       {shorthand}
@@ -70,10 +45,10 @@ function DayButton({ shorthand, onDayClick, isCurrentDay }: DayButtonProps) {
 
 interface DayOfWeekPickerProps {
   selected: Day[];
-  onSelect: (value: Day[]) => void
+  onSelect: (value: Day[]) => void;
 }
 
-function DayOfWeekPicker({selected, onSelect}: DayOfWeekPickerProps) {
+function DayOfWeekPicker({ selected, onSelect }: DayOfWeekPickerProps) {
   // const [selected, setSelected] = useState<Day[]>([]);
   const currentDay = useNow(1, "day");
 
@@ -92,7 +67,7 @@ function DayOfWeekPicker({selected, onSelect}: DayOfWeekPickerProps) {
   }
 
   const handleDayClick = (id: number) => {
-    const day = daysOfWeek.find((day) => day.id === id) as Day;
+    const day = DAYS_OF_WEEK.find((day) => day.id === id) as Day;
 
     const findDayInSelected = (sDay: Day) => {
       return sDay.id === day.id;
@@ -111,12 +86,14 @@ function DayOfWeekPicker({selected, onSelect}: DayOfWeekPickerProps) {
   return (
     <div className="inline-flex flex-col items-center">
       <ol className="flex gap-x-1">
-        {daysOfWeek.map((day) => (
+        {DAYS_OF_WEEK.map((day) => (
           <DayButton
-            shorthand={day.shorthand}
-            onDayClick={() => handleDayClick(day.id)}
             key={day.id}
+            shorthand={day.shorthand}
             isCurrentDay={day.id === currentDay.getDay()}
+            // check if day.id is in selected
+            isSelected={!!selected.find((sDay) => sDay.id === day.id)}
+            onDayClick={() => handleDayClick(day.id)}
           />
         ))}
       </ol>
