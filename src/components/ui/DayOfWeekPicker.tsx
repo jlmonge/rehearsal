@@ -1,11 +1,6 @@
-import { MouseEventHandler, useState } from "react";
+import { MouseEventHandler } from "react";
 import useNow from "../../hooks/useNow";
-
-interface Day {
-  id: number;
-  shorthand: string;
-  name: string;
-}
+import { Day } from '../../types/features';
 
 const daysOfWeek: Day[] = [
   {
@@ -73,8 +68,13 @@ function DayButton({ shorthand, onDayClick, isCurrentDay }: DayButtonProps) {
   return <>{buttonJSX}</>;
 }
 
-function DayOfWeekPicker() {
-  const [selected, setSelected] = useState<Day[]>([]);
+interface DayOfWeekPickerProps {
+  selected: Day[];
+  onSelect: (value: Day[]) => void
+}
+
+function DayOfWeekPicker({selected, onSelect}: DayOfWeekPickerProps) {
+  // const [selected, setSelected] = useState<Day[]>([]);
   const currentDay = useNow(1, "day");
 
   let selectedShorthandsString: string;
@@ -99,12 +99,12 @@ function DayOfWeekPicker() {
     };
 
     if (selected.some(findDayInSelected)) {
-      setSelected(selected.filter((sDay) => !findDayInSelected(sDay)));
+      onSelect(selected.filter((sDay) => !findDayInSelected(sDay)));
     } else {
       const sorted = [...selected, day].sort((a, b) => {
         return a.id - b.id;
       });
-      setSelected(sorted);
+      onSelect(sorted);
     }
   };
 

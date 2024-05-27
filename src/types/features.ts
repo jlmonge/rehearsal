@@ -13,3 +13,9 @@ export type Rehearsal = {
   steps: Step[];
   settings: Settings;
 };
+
+export type Day = {
+  id: number;
+  shorthand: string;
+  name: string;
+};

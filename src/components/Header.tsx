@@ -1,5 +1,8 @@
 // import { useState } from "react";
 
+import { ChangeEvent } from "react";
+import { useLocalStorage } from "../hooks/useLocalStorage";
+
 interface HeaderProps {
   isEditingView: boolean;
   handleOpenSidebar: () => void;
@@ -13,7 +16,11 @@ function Header({
   handleOpenEditingView,
   isEditingView,
 }: HeaderProps) {
-  // const [title, setTitle] = useState();
+  const [title, setTitle] = useLocalStorage("title", "");
+
+  const handleChangeTitle = (e: ChangeEvent<HTMLInputElement>) => [
+    setTitle(e.target.value),
+  ];
 
   return (
     <header className="relative top-0">
@@ -24,11 +31,13 @@ function Header({
         >
           Open the sidebar!
         </button>
-        <h1 className="flex items-center shadow-md">
+        <h1 className="flex items-center shadow-md px-2">
           <input
             type="text"
-            className="bg-gray-200 px-1"
+            className="bg-gray-200 px-1 overflow-ellipsis"
             placeholder="Rehearsal name"
+            onChange={handleChangeTitle}
+            value={title}
           />
         </h1>
         <div className="flex flex-row flex-1 px-2 py-4 shadow-md">
