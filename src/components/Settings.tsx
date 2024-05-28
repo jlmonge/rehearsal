@@ -34,11 +34,11 @@ function Settings({ handleOpenClose }: SettingsProps) {
 
   return (
     <div
-      className="fixed p-4 bottom-0 inset-x-0 h-48 bg-slate-300 z-10"
+      className="fixed px-4 py-2 bottom-0 inset-x-0 h-48 bg-slate-300 z-10"
       ref={settingsRef}
     >
       <button
-        className="absolute size-12 right-1 top-1 text-xl p-3 hover:bg-slate-400 rounded-full transition-colors"
+        className="absolute size-10 right-1 top-1 text-lg p-4 hover:bg-slate-400 rounded-full transition-colors"
         onClick={handleOpenClose}
       >
         <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">

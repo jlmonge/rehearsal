@@ -95,10 +95,11 @@ function App() {
         <Header
           handleOpenSidebar={handleOpenSidebar}
           handleOpenCloseSettings={handleOpenCloseSettings}
-          isEditingView={isEditingView}
           handleOpenEditingView={handleOpenEditingView}
+          isEditingView={isEditingView}
+          isOpenSidebar={isOpenSidebar}
         />
-        <div className="relative flex-1">
+        <div className="relative flex-1 overflow-y-auto">
           <main className="flex flex-col gap-4 py-4 px-2 sm:px-4 items-start">
             {isEditingView && (
               <TextArea
@@ -117,34 +118,37 @@ function App() {
             )}
             {currentStep === steps.length && <p>You finished</p>}
             {!isEditingView && (
-              <div className="fixed right-0 top-1/2 -translate-y-1/2 h-1/2 flex flex-col z-20">
-                <button
-                  onClick={handlePrevStep}
-                  className="flex-1 hover:bg-gray-400 transition-colors px-4"
-                >
-                  Previous
-                </button>
+              <div className="border-l-2 px-1 border-gray-300 fixed right-4 top-1/2 -translate-y-1/2 flex flex-col justify-between z-20">
                 <button
                   onClick={handleNextStep}
-                  className="flex-1 hover:bg-gray-400 transition-colors px-4"
+                  className="hover:bg-gray-400 transition-colors size-16 rounded-full"
                 >
                   Next
+                </button>
+                <button
+                  onClick={handlePrevStep}
+                  className="hover:bg-gray-400 transition-colors size-16 rounded-full"
+                >
+                  Back
                 </button>
               </div>
             )}
 
-            <ul className="flex flex-col-reverse gap-1 w-full">
-              {steps?.map((step) => (
-                <EditStep
-                  key={step.pos}
-                  step={step}
-                  handleDeleteStep={handleDeleteStep}
-                  handleUpdateStep={handleUpdateStep}
-                  isEditingView={isEditingView}
-                  currentStep={currentStep}
-                />
-              ))}
-            </ul>
+            {!!steps.length && (
+              <ul className="flex flex-col-reverse gap-1 w-full">
+                {steps?.map((step) => (
+                  <EditStep
+                    key={step.pos}
+                    step={step}
+                    handleDeleteStep={handleDeleteStep}
+                    handleUpdateStep={handleUpdateStep}
+                    isEditingView={isEditingView}
+                    currentStep={currentStep}
+                  />
+                ))}
+              </ul>
+            )}
+
             {/* <p className="overflow-anywhere">debug: currentStep: {currentStep}</p> */}
             {/* <p className="overflow-anywhere">debug: {JSON.stringify(steps)}</p> */}
             <span>Double click to edit step</span>

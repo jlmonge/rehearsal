@@ -5,6 +5,7 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 
 interface HeaderProps {
   isEditingView: boolean;
+  isOpenSidebar: boolean;
   handleOpenSidebar: () => void;
   handleOpenCloseSettings: () => void;
   handleOpenEditingView: () => void;
@@ -15,6 +16,7 @@ function Header({
   handleOpenCloseSettings,
   handleOpenEditingView,
   isEditingView,
+  isOpenSidebar,
 }: HeaderProps) {
   const [title, setTitle] = useLocalStorage("title", "");
 
@@ -23,13 +25,13 @@ function Header({
   ];
 
   return (
-    <header className="relative top-0 z-20">
-      <div className="flex flex-grow">
+    <header className="relative top-0 z-20 max-w-full">
+      <div className="flex flex-1">
         <button
           className="shadow-md px-2"
           onClick={handleOpenSidebar}
         >
-          Open the sidebar!
+          {!isOpenSidebar ? "Open" : "Close"} menu
         </button>
         <h1 className="flex flex-1 items-center shadow-md px-2">
           <input
