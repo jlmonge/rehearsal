@@ -94,6 +94,7 @@ function EditStep({
     stepDelete = (
       <button
         className="text-slate-500 text-lg px-1 select-none"
+        aria-label="Delete step"
         onClick={() => handleDeleteStep(step.pos)}
       >
         X
@@ -112,7 +113,7 @@ function EditStep({
     >
       <span
         className={cn(
-          "flex items-center justify-center bg-zinc-300 rounded-full w-8 h-8 group-hover:bg-zinc-400 group-hover:text-zinc-50",
+          "flex items-center justify-center bg-zinc-300 rounded-full w-8 h-8 group-hover:bg-zinc-400 group-hover:text-zinc-50 transition-colors",
           {
             "bg-green-400 group-hover:bg-green-500": currentStep + 1 > step.pos,
           }
