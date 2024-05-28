@@ -68,6 +68,10 @@ function App() {
       return pos < argPos ? step : { ...step, pos: pos - 1 };
     });
     setSteps(newSteps);
+
+    if (currentStep !== 0 && argPos - 1 < currentStep) {
+      setCurrentStep(currentStep - 1);
+    }
   };
 
   const handleOpenCloseSettings = () => {
@@ -116,7 +120,9 @@ function App() {
                 autoFocus
               />
             )}
-            {currentStep === steps.length && <p>You finished</p>}
+            {steps.length > 0 && currentStep === steps.length && (
+              <p>You finished</p>
+            )}
             {!isEditingView && (
               <div className="border-l-2 px-1 border-gray-300 fixed right-4 top-1/2 -translate-y-1/2 flex flex-col justify-between z-20">
                 <button
