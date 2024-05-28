@@ -6,13 +6,13 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 interface HeaderProps {
   isEditingView: boolean;
   handleOpenSidebar: () => void;
-  handleOpenSettings: () => void;
+  handleOpenCloseSettings: () => void;
   handleOpenEditingView: () => void;
 }
 
 function Header({
   handleOpenSidebar,
-  handleOpenSettings,
+  handleOpenCloseSettings,
   handleOpenEditingView,
   isEditingView,
 }: HeaderProps) {
@@ -41,7 +41,7 @@ function Header({
           />
         </h1>
         <div className="flex flex-row flex-1 px-2 py-4 shadow-md">
-          <button onClick={handleOpenSettings}>Settings</button>
+          <button onClick={handleOpenCloseSettings}>Settings</button>
         </div>
         <div className="flex flex-row flex-1 px-2 py-4 shadow-md">
           <button onClick={handleOpenEditingView}>

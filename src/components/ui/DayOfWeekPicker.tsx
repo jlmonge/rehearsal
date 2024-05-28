@@ -46,9 +46,14 @@ function DayButton({
 interface DayOfWeekPickerProps {
   selected: Day[];
   onSelect: (value: Day[]) => void;
+  className?: string;
 }
 
-function DayOfWeekPicker({ selected, onSelect }: DayOfWeekPickerProps) {
+function DayOfWeekPicker({
+  selected,
+  onSelect,
+  className,
+}: DayOfWeekPickerProps) {
   // const [selected, setSelected] = useState<Day[]>([]);
   const currentDay = useNow(1, "day");
 
@@ -84,7 +89,7 @@ function DayOfWeekPicker({ selected, onSelect }: DayOfWeekPickerProps) {
   };
 
   return (
-    <div className="inline-flex flex-col items-center">
+    <div className={cn("inline-flex flex-col items-center", className)}>
       <ol className="flex gap-x-1">
         {DAYS_OF_WEEK.map((day) => (
           <DayButton

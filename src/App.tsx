@@ -70,7 +70,7 @@ function App() {
     setSteps(newSteps);
   };
 
-  const handleOpenSettings = () => {
+  const handleOpenCloseSettings = () => {
     setIsOpenSettings(!isOpenSettings);
     console.log(`settings open? ${isOpenSettings.toString()}`);
   };
@@ -90,11 +90,11 @@ function App() {
   return (
     <div className="flex">
       {isOpenSidebar && <Sidebar />}
-      {isOpenSettings && <Settings />}
+      {isOpenSettings && <Settings handleOpenClose={handleOpenCloseSettings} />}
       <div className="w-full">
         <Header
           handleOpenSidebar={handleOpenSidebar}
-          handleOpenSettings={handleOpenSettings}
+          handleOpenCloseSettings={handleOpenCloseSettings}
           isEditingView={isEditingView}
           handleOpenEditingView={handleOpenEditingView}
         />

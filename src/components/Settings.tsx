@@ -5,11 +5,19 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 import type { Day } from "../types/features";
 import { useRef, useState } from "react";
 import { DAYS_OF_WEEK } from "../utils/variables";
+import { useOnClickOutside } from "../hooks/useOnClickOutside";
 
-function Settings() {
+interface SettingsProps {
+  handleOpenClose: () => void;
+}
+
+function Settings({ handleOpenClose }: SettingsProps) {
   const [daysOfWeek, setDaysOfWeek] = useLocalStorage<Day[]>("daysOfWeek", []);
   const prevDaysOfWeek = useRef<Day[]>([]);
-  const [isDaily, setIsDaily] = useState(true);
+  const [isDaily, setIsDaily] = useState(() => daysOfWeek.length === 7);
+  const settingsRef = useRef<HTMLDivElement>(null);
+
+  useOnClickOutside(settingsRef, handleOpenClose);
 
   const handleCheckedChange = () => {
     const newIsDaily = !isDaily;
@@ -25,15 +33,25 @@ function Settings() {
   };
 
   return (
-    <div className="fixed bottom-0 inset-x-0 h-48 bg-slate-300">
-      <button className="absolute right-0 top-0">X</button>
+    <div
+      className="fixed p-4 bottom-0 inset-x-0 h-48 bg-slate-300 z-10"
+      ref={settingsRef}
+    >
+      <button
+        className="absolute size-12 right-1 top-1 text-xl p-3 hover:bg-slate-400 rounded-full transition-colors"
+        onClick={handleOpenClose}
+      >
+        <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          X
+        </span>
+      </button>
       <div className="flex flex-col gap-y-4">
-        <h2>Settings</h2>
+        <h2 className="text-2xl text-gray-900">Settings</h2>
         <div className="flex flex-col gap-y-2 max-w-fit">
           <div className="flex gap-x-2">
             <label
               htmlFor="daily"
-              className="max-w-12"
+              className="w-24 text-gray-700"
             >
               Daily
             </label>
