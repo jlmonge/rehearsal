@@ -6,6 +6,7 @@ import type { Day } from "../types/features";
 import { useRef, useState } from "react";
 import { DAYS_OF_WEEK } from "../utils/variables";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
+import Backdrop from "./ui/Backdrop";
 
 interface SettingsProps {
   handleOpenClose: () => void;
@@ -33,43 +34,48 @@ function Settings({ handleOpenClose }: SettingsProps) {
   };
 
   return (
-    <div
-      className="fixed px-4 py-2 bottom-0 inset-x-0 h-48 bg-slate-300 z-10"
-      ref={settingsRef}
-    >
-      <button
-        className="absolute size-10 right-1 top-1 text-lg p-4 hover:bg-slate-400 rounded-full transition-colors"
-        onClick={handleOpenClose}
+    <Backdrop>
+      <div
+        className="absolute bottom-0 inset-x-0 h-48 bg-slate-300"
+        ref={settingsRef}
       >
-        <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          X
-        </span>
-      </button>
-      <div className="flex flex-col gap-y-4">
-        <h2 className="text-2xl text-gray-900">Settings</h2>
-        <div className="flex flex-col gap-y-2 max-w-fit">
-          <div className="flex gap-x-2">
-            <label
-              htmlFor="daily"
-              className="w-24 text-gray-700"
-            >
-              Daily
-            </label>
-            <Switch
-              id="daily"
-              checked={isDaily}
-              onCheckedChange={handleCheckedChange}
-            />
+        <button
+          className="absolute size-8 right-[0.5px] top-[0.5px] text-lg p-4 hover:bg-slate-500 rounded-full transition-colors"
+          onClick={handleOpenClose}
+        >
+          <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            X
+          </span>
+        </button>
+        <div className="flex flex-col gap-y-4">
+          <div className="p-2 bg-slate-200">
+            <h2 className="text-lg text-gray-900">Settings</h2>
           </div>
-          {!isDaily && (
-            <DayOfWeekPicker
-              selected={daysOfWeek}
-              onSelect={setDaysOfWeek}
-            />
-          )}
+
+          <div className="flex flex-col gap-y-2 max-w-fit px-2">
+            <div className="flex gap-x-2">
+              <label
+                htmlFor="daily"
+                className="w-24 text-gray-700"
+              >
+                Daily
+              </label>
+              <Switch
+                id="daily"
+                checked={isDaily}
+                onCheckedChange={handleCheckedChange}
+              />
+            </div>
+            {!isDaily && (
+              <DayOfWeekPicker
+                selected={daysOfWeek}
+                onSelect={setDaysOfWeek}
+              />
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </Backdrop>
   );
 }
 

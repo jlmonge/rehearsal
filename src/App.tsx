@@ -94,7 +94,6 @@ function App() {
   return (
     <div className="flex h-full">
       {isOpenSidebar && <Sidebar />}
-      {isOpenSettings && <Settings handleOpenClose={handleOpenCloseSettings} />}
       <div className="flex flex-col w-full h-full">
         <Header
           handleOpenSidebar={handleOpenSidebar}
@@ -160,6 +159,9 @@ function App() {
             <span>Double click to edit step</span>
             <button onClick={handleClearSteps}>Click to clear steps</button>
           </main>
+          {isOpenSettings && (
+            <Settings handleOpenClose={handleOpenCloseSettings} />
+          )}
         </div>
       </div>
     </div>

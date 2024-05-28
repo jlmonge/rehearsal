@@ -42,21 +42,23 @@ function Header({
             value={title}
           />
         </h1>
-        {isEditingView && (
-          <button
-            onClick={handleOpenCloseSettings}
-            className="flex items-center justify-center px-2 py-4 shadow-md min-w-16"
-          >
-            Settings
-          </button>
-        )}
+        <div className="flex flex-row flex-1">
+          {isEditingView && (
+            <button
+              onClick={handleOpenCloseSettings}
+              className="flex flex-1 items-center justify-center px-2 py-4 shadow-md"
+            >
+              Settings
+            </button>
+          )}
 
-        <button
-          onClick={handleOpenEditingView}
-          className="flex items-center justify-center flex-row px-2 py-4 shadow-md min-w-16"
-        >
-          {!isEditingView ? "Edit" : "Save"}
-        </button>
+          <button
+            onClick={handleOpenEditingView}
+            className="flex flex-1 items-center justify-center flex-row px-2 py-4 shadow-md min-w-16"
+          >
+            {!isEditingView ? "Edit" : "Save"}
+          </button>
+        </div>
       </div>
     </header>
   );

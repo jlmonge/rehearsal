@@ -9,7 +9,11 @@ function Backdrop({
   children: ReactNode;
 }) {
   return (
-    <div className={cn("fixed inset-0 bg-gray-500", className)}>{children}</div>
+    <div
+      className={cn("fixed inset-0 bg-gray-950 bg-opacity-50 z-50", className)}
+    >
+      {children}
+    </div>
   );
 }
 

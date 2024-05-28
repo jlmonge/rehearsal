@@ -11,7 +11,7 @@ const SIDEBAR_OPTIONS = [
   },
   {
     id: 2,
-    name: "Delete all data",
+    name: "Clear all data",
     href: "#",
   },
 ];
