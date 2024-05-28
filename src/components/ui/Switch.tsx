@@ -16,7 +16,7 @@ function Switch({ id, checked, onCheckedChange }: SwitchProps) {
       <RadixSwitch.Root
         checked={checked}
         onCheckedChange={onCheckedChange}
-        className={`relative w-12 h-6 bg-slate-400 rounded-full data-[state=checked]:bg-slate-800 px-1`}
+        className={`relative w-12 h-6 bg-slate-400 rounded-full data-[state=checked]:bg-green-600 px-1`}
         id={id}
       >
         <RadixSwitch.SwitchThumb

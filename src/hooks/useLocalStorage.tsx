@@ -7,7 +7,7 @@ function getStorageValue<T>(key: string, defaultValue?: T) {
 
 export function useLocalStorage<T>(
   key: string,
-  defaultValue?: T
+  defaultValue: T
 ): [T, (value: T) => void] {
   const [value, setValue] = useState<T>(() =>
     getStorageValue<T>(key, defaultValue)

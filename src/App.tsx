@@ -2,13 +2,12 @@ import { KeyboardEvent, useRef, useState } from "react";
 // import "./assets/App.css";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
-import { Day, Step } from "./types/features";
+import { Step } from "./types/features";
 import EditStep from "./components/EditStep";
 import Settings from "./components/Settings";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import TextArea from "./components/ui/TextArea";
 import { useAutosizeTextArea } from "./hooks/useAutosizeTextArea";
-import useNow from "./hooks/useNow";
 
 function App() {
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
@@ -18,8 +17,7 @@ function App() {
   const [steps, setSteps] = useLocalStorage("steps", [] as Step[]);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [isEditingView, setIsEditingView] = useState(false);
-  const [daysOfWeek] = useLocalStorage<Day[]>("daysOfWeek");
-  const now = useNow(1, "minute");
+  // const now = useNow(1, "minute");
 
   useAutosizeTextArea(textAreaRef, stepInput);
 
@@ -121,23 +119,22 @@ function App() {
                 autoFocus
               />
             )}
-            {!isEditingView &&
-              daysOfWeek.some((sDay) => sDay.id === now.getDay()) && (
-                <div className="border-l-2 px-1 border-gray-300 absolute right-4 top-1/2 -translate-y-1/2 flex flex-col justify-between z-20">
-                  <button
-                    onClick={handleNextStep}
-                    className="hover:bg-gray-400 transition-colors size-16 rounded-full"
-                  >
-                    Next
-                  </button>
-                  <button
-                    onClick={handlePrevStep}
-                    className="hover:bg-gray-400 transition-colors size-16 rounded-full"
-                  >
-                    Back
-                  </button>
-                </div>
-              )}
+            {!isEditingView && (
+              <div className="border-l-2 px-1 border-gray-300 absolute right-4 top-1/2 -translate-y-1/2 flex flex-col justify-between z-20">
+                <button
+                  onClick={handleNextStep}
+                  className="hover:bg-gray-400 transition-colors size-16 rounded-full"
+                >
+                  Next
+                </button>
+                <button
+                  onClick={handlePrevStep}
+                  className="hover:bg-gray-400 transition-colors size-16 rounded-full"
+                >
+                  Back
+                </button>
+              </div>
+            )}
 
             {steps.length > 0 && currentStep === steps.length && (
               <p>You finished</p>

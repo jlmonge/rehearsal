@@ -14,13 +14,17 @@ interface SettingsProps {
 
 function Settings({ handleOpenClose }: SettingsProps) {
   const [daysOfWeek, setDaysOfWeek] = useLocalStorage<Day[]>("daysOfWeek", []);
+  const [isRandomized, setIsRandomized] = useLocalStorage(
+    "isRandomized",
+    false
+  );
   const prevDaysOfWeek = useRef<Day[]>([]);
   const [isDaily, setIsDaily] = useState(() => daysOfWeek.length === 7);
   const settingsRef = useRef<HTMLDivElement>(null);
 
   useOnClickOutside(settingsRef, handleOpenClose);
 
-  const handleCheckedChange = () => {
+  const handleDailyCheckedChange = () => {
     const newIsDaily = !isDaily;
     setIsDaily(!isDaily);
     // if going from not daily to daily (checking), save daysOfWeek to ref because we will be setting daysOfWeek to all days.
@@ -33,10 +37,14 @@ function Settings({ handleOpenClose }: SettingsProps) {
     }
   };
 
+  const handleRandomizedCheckedChange = () => {
+    setIsRandomized(!isRandomized);
+  };
+
   return (
-    <Backdrop>
+    <Backdrop className="flex justify-center items-center">
       <div
-        className="absolute bottom-0 inset-x-0 h-48 bg-slate-300"
+        className="absolute h-2/3 w-2/3 bg-slate-300"
         ref={settingsRef}
       >
         <button
@@ -47,31 +55,41 @@ function Settings({ handleOpenClose }: SettingsProps) {
             X
           </span>
         </button>
-        <div className="flex flex-col gap-y-4">
+        <div className="flex flex-col h-full">
           <div className="p-2 bg-slate-200">
             <h2 className="text-lg text-gray-900">Settings</h2>
           </div>
 
-          <div className="flex flex-col gap-y-2 max-w-fit px-2">
-            <div className="flex gap-x-2">
-              <label
-                htmlFor="daily"
-                className="w-24 text-gray-700"
-              >
-                Daily
-              </label>
+          <div className="flex flex-col gap-y-2 px-2 mt-2 overflow-y-auto">
+            <div className="max-w-fit space-y-2">
+              <div className="flex gap-x-2">
+                <label
+                  htmlFor="daily"
+                  className="w-24 text-gray-700"
+                >
+                  Daily
+                </label>
+                <Switch
+                  id="daily"
+                  checked={isDaily}
+                  onCheckedChange={handleDailyCheckedChange}
+                />
+              </div>
+              {!isDaily && (
+                <DayOfWeekPicker
+                  selected={daysOfWeek}
+                  onSelect={setDaysOfWeek}
+                />
+              )}
+            </div>
+            <div>
+              <label htmlFor="random">Random order</label>
               <Switch
-                id="daily"
-                checked={isDaily}
-                onCheckedChange={handleCheckedChange}
+                id="random"
+                checked={isRandomized}
+                onCheckedChange={handleRandomizedCheckedChange}
               />
             </div>
-            {!isDaily && (
-              <DayOfWeekPicker
-                selected={daysOfWeek}
-                onSelect={setDaysOfWeek}
-              />
-            )}
           </div>
         </div>
       </div>
