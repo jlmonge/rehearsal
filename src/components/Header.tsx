@@ -23,7 +23,7 @@ function Header({
   ];
 
   return (
-    <header className="relative top-0">
+    <header className="relative top-0 z-20">
       <div className="flex flex-grow">
         <button
           className="shadow-md px-2"
@@ -31,7 +31,7 @@ function Header({
         >
           Open the sidebar!
         </button>
-        <h1 className="flex items-center shadow-md px-2">
+        <h1 className="flex flex-1 items-center shadow-md px-2">
           <input
             type="text"
             className="bg-gray-200 px-1 overflow-ellipsis"
@@ -40,14 +40,21 @@ function Header({
             value={title}
           />
         </h1>
-        <div className="flex flex-row flex-1 px-2 py-4 shadow-md">
-          <button onClick={handleOpenCloseSettings}>Settings</button>
-        </div>
-        <div className="flex flex-row flex-1 px-2 py-4 shadow-md">
-          <button onClick={handleOpenEditingView}>
-            {!isEditingView ? "Edit" : "Save"}
+        {isEditingView && (
+          <button
+            onClick={handleOpenCloseSettings}
+            className="flex items-center justify-center px-2 py-4 shadow-md min-w-16"
+          >
+            Settings
           </button>
-        </div>
+        )}
+
+        <button
+          onClick={handleOpenEditingView}
+          className="flex items-center justify-center flex-row px-2 py-4 shadow-md min-w-16"
+        >
+          {!isEditingView ? "Edit" : "Save"}
+        </button>
       </div>
     </header>
   );

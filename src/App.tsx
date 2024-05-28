@@ -88,56 +88,69 @@ function App() {
   };
 
   return (
-    <div className="flex">
+    <div className="flex h-full">
       {isOpenSidebar && <Sidebar />}
       {isOpenSettings && <Settings handleOpenClose={handleOpenCloseSettings} />}
-      <div className="w-full">
+      <div className="flex flex-col w-full h-full">
         <Header
           handleOpenSidebar={handleOpenSidebar}
           handleOpenCloseSettings={handleOpenCloseSettings}
           isEditingView={isEditingView}
           handleOpenEditingView={handleOpenEditingView}
         />
-        <main className="flex flex-col gap-4 p-4 items-start">
-          {isEditingView ? (
-            <TextArea
-              placeholder={
-                steps.length
-                  ? "Next up..."
-                  : "Enter your first step to get started"
-              }
-              className="bg-slate-50 focus:bg-white focus:border-slate-400 transition-colors outline-none border-slate-300 border-b-2 p-1 w-full max-w-screen-sm"
-              value={stepInput}
-              onChange={(e) => setStepInput(e.target.value)}
-              onKeyDown={(e) => handleInputEnter(e)}
-              ref={textAreaRef}
-              autoFocus
-            />
-          ) : (
-            <div className="flex">
-              <button onClick={handlePrevStep}>Previous</button>
-              <button onClick={handleNextStep}>Next</button>
-              {currentStep === steps.length && <p>You finished</p>}
-            </div>
-          )}
-
-          <ul className="flex flex-col-reverse gap-2 w-full">
-            {steps?.map((step) => (
-              <EditStep
-                key={step.pos}
-                step={step}
-                handleDeleteStep={handleDeleteStep}
-                handleUpdateStep={handleUpdateStep}
-                isEditingView={isEditingView}
-                currentStep={currentStep}
+        <div className="relative flex-1">
+          <main className="flex flex-col gap-4 py-4 px-2 sm:px-4 items-start">
+            {isEditingView && (
+              <TextArea
+                placeholder={
+                  steps.length
+                    ? "Next up..."
+                    : "Enter your first step to get started"
+                }
+                className="bg-slate-50 focus:bg-white focus:border-slate-400 transition-colors outline-none border-slate-300 border-b-2 p-1 w-full max-w-screen-sm"
+                value={stepInput}
+                onChange={(e) => setStepInput(e.target.value)}
+                onKeyDown={(e) => handleInputEnter(e)}
+                ref={textAreaRef}
+                autoFocus
               />
-            ))}
-          </ul>
-          <p className="overflow-anywhere">debug: currentStep: {currentStep}</p>
-          <p className="overflow-anywhere">debug: {JSON.stringify(steps)}</p>
-          <span>Double click to edit step</span>
-          <button onClick={handleClearSteps}>Click to clear steps</button>
-        </main>
+            )}
+            {currentStep === steps.length && <p>You finished</p>}
+            {!isEditingView && (
+              <div className="fixed right-0 top-1/2 -translate-y-1/2 h-1/2 flex flex-col z-20">
+                <button
+                  onClick={handlePrevStep}
+                  className="flex-1 hover:bg-gray-400 transition-colors px-4"
+                >
+                  Previous
+                </button>
+                <button
+                  onClick={handleNextStep}
+                  className="flex-1 hover:bg-gray-400 transition-colors px-4"
+                >
+                  Next
+                </button>
+              </div>
+            )}
+
+            <ul className="flex flex-col-reverse gap-1 w-full">
+              {steps?.map((step) => (
+                <EditStep
+                  key={step.pos}
+                  step={step}
+                  handleDeleteStep={handleDeleteStep}
+                  handleUpdateStep={handleUpdateStep}
+                  isEditingView={isEditingView}
+                  currentStep={currentStep}
+                />
+              ))}
+            </ul>
+            {/* <p className="overflow-anywhere">debug: currentStep: {currentStep}</p> */}
+            {/* <p className="overflow-anywhere">debug: {JSON.stringify(steps)}</p> */}
+            <span>Double click to edit step</span>
+            <button onClick={handleClearSteps}>Click to clear steps</button>
+          </main>
+        </div>
       </div>
     </div>
   );

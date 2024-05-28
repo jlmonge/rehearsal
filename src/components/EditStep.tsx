@@ -78,7 +78,7 @@ function EditStep({
     ) : (
       <span
         className={cn("flex-1 overflow-anywhere p-1", {
-          "text-4xl transition-all duration-500": step.pos === currentStep + 1,
+          "text-3xl transition-all duration-500": step.pos === currentStep + 1,
           // "line-through": step.pos < currentStep + 1,
         })}
         onDoubleClick={handleStartEditing}
