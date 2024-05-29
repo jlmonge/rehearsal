@@ -170,6 +170,10 @@ function App() {
                 autoFocus
               />
             )}
+            {!isEditingView && steps.length === 0 && (
+              <p>You should enter some steps first.</p>
+            )}
+
             {!isEditingView && steps.length > 0 && (
               <div className="fixed border-l-2 px-1 border-gray-300 right-4 top-1/2 -translate-y-1/2 flex flex-col justify-between z-20 gap-1">
                 {currentStep < steps.length ? (
