@@ -27,6 +27,11 @@ function App() {
 
   useAutosizeTextArea(textAreaRef, stepInput);
 
+  const handleRestart = () => {
+    setCurrentStep(0);
+    setHasCompletedRehearsal(false);
+  };
+
   const handleClearSteps = () => setSteps([]);
 
   const handleOpenSidebar = () => {
@@ -97,10 +102,12 @@ function App() {
   };
 
   const handleNextStep = () => {
-    if (currentStep < steps.length) {
-      setCurrentStep(currentStep + 1);
-    } else if (currentStep === steps.length) {
-      setIsOpenAfterRehearsal(true);
+    const nextStep = currentStep + 1;
+    if (nextStep <= steps.length) {
+      setCurrentStep(nextStep);
+      if (nextStep === steps.length) {
+        setIsOpenAfterRehearsal(true);
+      }
     }
   };
 
@@ -134,18 +141,24 @@ function App() {
             )}
             {!isEditingView && (
               <div className="border-l-2 px-1 border-gray-300 absolute right-4 top-1/2 -translate-y-1/2 flex flex-col justify-between z-20">
-                <button
-                  onClick={handleNextStep}
-                  className="hover:bg-gray-400 transition-colors size-16 rounded-full"
-                >
-                  Next
-                </button>
-                <button
-                  onClick={handlePrevStep}
-                  className="hover:bg-gray-400 transition-colors size-16 rounded-full"
-                >
-                  Back
-                </button>
+                {currentStep < steps.length ? (
+                  <>
+                    <button
+                      onClick={handleNextStep}
+                      className="hover:bg-gray-400 transition-colors size-16 rounded-full"
+                    >
+                      Next
+                    </button>
+                    <button
+                      onClick={handlePrevStep}
+                      className="hover:bg-gray-400 transition-colors size-16 rounded-full"
+                    >
+                      Back
+                    </button>
+                  </>
+                ) : (
+                  <button onClick={handleRestart}>Restart</button>
+                )}
               </div>
             )}
 
