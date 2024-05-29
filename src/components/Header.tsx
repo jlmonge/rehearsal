@@ -24,29 +24,40 @@ function Header({
     setTitle(e.target.value),
   ];
 
+  const handleOpenHelp = () => {
+    console.log("help");
+  };
+
   return (
-    <header className="relative top-0 z-20 max-w-full">
-      <div className="flex flex-1">
+    <header className="relative top-0 z-20 max-w-full text-sm sm:text-base">
+      <div className="flex flex-1 shadow-md justify-stretch h-16">
         <button
           className="shadow-md px-2"
           onClick={handleOpenSidebar}
         >
           {!isOpenSidebar ? "Open" : "Close"} menu
         </button>
-        <h1 className="flex flex-1 items-center shadow-md px-2">
+        <h1 className="flex items-center shadow-md px-2">
           <input
             type="text"
-            className="bg-gray-200 px-1 overflow-ellipsis"
-            placeholder="Rehearsal name"
+            className="bg-gray-200 px-1 overflow-ellipsis w-full min-w-20 max-w-32"
+            placeholder="Untitled rehearsal"
             onChange={handleChangeTitle}
             value={title}
           />
         </h1>
-        <div className="flex flex-row flex-1">
+        {/* other buttons go here */}
+        <div className="flex flex-row flex-1 justify-end">
+          <button
+            onClick={handleOpenHelp}
+            className="flex items-center justify-center px-2 py-4 shadow-md sm:min-w-16"
+          >
+            Help
+          </button>
           {isEditingView && (
             <button
               onClick={handleOpenCloseSettings}
-              className="flex flex-1 items-center justify-center px-2 py-4 shadow-md"
+              className="flex items-center justify-center px-2 py-4 shadow-md sm:min-w-16"
             >
               Settings
             </button>
@@ -54,7 +65,7 @@ function Header({
 
           <button
             onClick={handleOpenEditingView}
-            className="flex flex-1 items-center justify-center flex-row px-2 py-4 shadow-md min-w-16"
+            className="flex items-center justify-center flex-row px-2 py-4 shadow-md min-w-16"
           >
             {!isEditingView ? "Edit" : "Save"}
           </button>

@@ -150,7 +150,7 @@ function App() {
                 placeholder={
                   steps.length
                     ? "Next up..."
-                    : "Enter your first step to get started"
+                    : "Enter your first step to get started..."
                 }
                 className="bg-slate-50 focus:bg-white focus:border-slate-400 transition-colors outline-none border-slate-300 border-b-2 p-1 w-full max-w-screen-sm flex-none"
                 value={stepInput}
@@ -160,7 +160,7 @@ function App() {
                 autoFocus
               />
             )}
-            {!isEditingView && (
+            {!isEditingView && steps.length > 0 && (
               <div className="fixed border-l-2 px-1 border-gray-300 right-4 top-1/2 -translate-y-1/2 flex flex-col justify-between z-20">
                 {currentStep < steps.length ? (
                   <>
