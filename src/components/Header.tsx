@@ -24,10 +24,6 @@ function Header({
     setTitle(e.target.value),
   ];
 
-  const handleOpenHelp = () => {
-    console.log("help");
-  };
-
   return (
     <header className="relative top-0 z-20 max-w-full text-sm sm:text-base">
       <div className="flex flex-1 shadow-md justify-stretch h-16">
@@ -40,7 +36,7 @@ function Header({
         <h1 className="flex items-center shadow-md px-2">
           <input
             type="text"
-            className="bg-gray-200 px-1 overflow-ellipsis w-full min-w-20 max-w-32"
+            className="bg-gray-200 px-1 overflow-ellipsis w-full min-w-20 max-w-36"
             placeholder="Untitled rehearsal"
             onChange={handleChangeTitle}
             value={title}
@@ -48,10 +44,7 @@ function Header({
         </h1>
         {/* other buttons go here */}
         <div className="flex flex-row flex-1 justify-end">
-          <button
-            onClick={handleOpenHelp}
-            className="flex items-center justify-center px-2 py-4 shadow-md sm:min-w-16"
-          >
+          <button className="flex items-center justify-center px-2 py-4 shadow-md sm:min-w-16">
             Help
           </button>
           {isEditingView && (

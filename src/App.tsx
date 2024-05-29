@@ -22,6 +22,10 @@ function App() {
   const [currentStep, setCurrentStep] = useLocalStorage("currentStep", 0);
   const [steps, setSteps] = useLocalStorage("steps", [] as Step[]);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const [hasSavedBefore, setHasSavedBefore] = useLocalStorage(
+    "hasSavedBefore",
+    false
+  );
   const [isEditingView, setIsEditingView] = useState(false);
   const [dateLastOpened, setDateLastOpened] = useLocalStorage(
     "dateLastOpened",
@@ -42,8 +46,11 @@ function App() {
     } else {
       console.log("not a new day");
     }
-
     setDateLastOpened(today.toISOString().split("T")[0]);
+
+    if (!hasSavedBefore) {
+      setIsEditingView(true);
+    }
   }, []);
 
   useAutosizeTextArea(textAreaRef, stepInput);
@@ -60,6 +67,9 @@ function App() {
   };
 
   const handleOpenEditingView = () => {
+    if (!hasSavedBefore) {
+      setHasSavedBefore(true);
+    }
     setIsEditingView(!isEditingView);
   };
 
@@ -161,18 +171,18 @@ function App() {
               />
             )}
             {!isEditingView && steps.length > 0 && (
-              <div className="fixed border-l-2 px-1 border-gray-300 right-4 top-1/2 -translate-y-1/2 flex flex-col justify-between z-20">
+              <div className="fixed border-l-2 px-1 border-gray-300 right-4 top-1/2 -translate-y-1/2 flex flex-col justify-between z-20 gap-1">
                 {currentStep < steps.length ? (
                   <>
                     <button
                       onClick={handleNextStep}
-                      className="hover:bg-gray-400 transition-colors size-16 rounded-full"
+                      className="bg-gray-300 hover:bg-gray-400 transition-colors size-16 rounded-full"
                     >
                       Next
                     </button>
                     <button
                       onClick={handlePrevStep}
-                      className="hover:bg-gray-400 transition-colors size-16 rounded-full"
+                      className="bg-gray-300 hover:bg-gray-400 transition-colors size-16 rounded-full"
                     >
                       Back
                     </button>
@@ -180,7 +190,7 @@ function App() {
                 ) : (
                   <button
                     onClick={handleRestart}
-                    className="hover:bg-gray-400 transition-colors size-16 rounded-full"
+                    className="bg-gray-300 hover:bg-gray-400 transition-colors size-16 rounded-full"
                   >
                     Restart
                   </button>
@@ -189,7 +199,7 @@ function App() {
             )}
 
             {!!steps.length && (
-              <ul className="flex flex-col-reverse gap-1 w-full flex-1 justify-end">
+              <ul className="flex flex-col-reverse gap-1 w-full flex-1 justify-end pb-8">
                 {steps?.map((step) => (
                   <EditStep
                     key={step.pos}
@@ -205,7 +215,6 @@ function App() {
 
             {/* <p className="overflow-anywhere">debug: currentStep: {currentStep}</p> */}
             {/* <p className="overflow-anywhere">debug: {JSON.stringify(steps)}</p> */}
-            <span>Double click to edit step</span>
             {/* <button onClick={handleClearSteps}>Click to clear steps</button> */}
           </div>
           {isOpenSettings && (
