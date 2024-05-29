@@ -1,4 +1,4 @@
-import { KeyboardEvent, useRef, useState } from "react";
+import { KeyboardEvent, useEffect, useRef, useState } from "react";
 // import "./assets/App.css";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
@@ -23,7 +23,28 @@ function App() {
   const [steps, setSteps] = useLocalStorage("steps", [] as Step[]);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [isEditingView, setIsEditingView] = useState(false);
+  const [dateLastOpened, setDateLastOpened] = useLocalStorage(
+    "dateLastOpened",
+    new Date().toISOString().split("T")[0]
+  );
   // const now = useNow(1, "minute");
+
+  useEffect(() => {
+    let today = new Date();
+    const timezoneOffset = today.getTimezoneOffset();
+    today = new Date(today.getTime() - timezoneOffset * 60 * 1000);
+    const todayString = today.toISOString().split("T")[0];
+    console.log(todayString, dateLastOpened);
+    if (todayString !== dateLastOpened) {
+      console.log("today is a new day");
+      setCurrentStep(0);
+      setHasCompletedRehearsal(false);
+    } else {
+      console.log("not a new day");
+    }
+
+    setDateLastOpened(today.toISOString().split("T")[0]);
+  }, []);
 
   useAutosizeTextArea(textAreaRef, stepInput);
 
@@ -32,7 +53,7 @@ function App() {
     setHasCompletedRehearsal(false);
   };
 
-  const handleClearSteps = () => setSteps([]);
+  // const handleClearSteps = () => setSteps([]);
 
   const handleOpenSidebar = () => {
     setIsOpenSidebar(!isOpenSidebar);
@@ -140,7 +161,7 @@ function App() {
               />
             )}
             {!isEditingView && (
-              <div className="border-l-2 px-1 border-gray-300 absolute right-4 top-1/2 -translate-y-1/2 flex flex-col justify-between z-20">
+              <div className="fixed border-l-2 px-1 border-gray-300 right-4 top-1/2 -translate-y-1/2 flex flex-col justify-between z-20">
                 {currentStep < steps.length ? (
                   <>
                     <button
@@ -157,7 +178,12 @@ function App() {
                     </button>
                   </>
                 ) : (
-                  <button onClick={handleRestart}>Restart</button>
+                  <button
+                    onClick={handleRestart}
+                    className="hover:bg-gray-400 transition-colors size-16 rounded-full"
+                  >
+                    Restart
+                  </button>
                 )}
               </div>
             )}
@@ -180,7 +206,7 @@ function App() {
             {/* <p className="overflow-anywhere">debug: currentStep: {currentStep}</p> */}
             {/* <p className="overflow-anywhere">debug: {JSON.stringify(steps)}</p> */}
             <span>Double click to edit step</span>
-            <button onClick={handleClearSteps}>Click to clear steps</button>
+            {/* <button onClick={handleClearSteps}>Click to clear steps</button> */}
           </div>
           {isOpenSettings && (
             <Settings handleOpenClose={handleOpenCloseSettings} />
