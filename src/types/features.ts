@@ -1,21 +1,21 @@
-export type Step = {
+export interface Step {
   pos: number;
   text: string;
-};
+}
 
-export type Settings = {
+export interface Settings {
   frequency: number[];
-};
+}
 
-export type Rehearsal = {
+export interface Rehearsal {
   id: string;
   title: string;
   steps: Step[];
   settings: Settings;
-};
+}
 
-export type Day = {
+export interface Day {
   id: number;
   shorthand: string;
   name: string;
-};
+}
