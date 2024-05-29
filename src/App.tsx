@@ -8,10 +8,16 @@ import Settings from "./components/Settings";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import TextArea from "./components/ui/TextArea";
 import { useAutosizeTextArea } from "./hooks/useAutosizeTextArea";
+import AfterRehearsal from "./components/AfterRehearsal";
 
 function App() {
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
   const [isOpenSettings, setIsOpenSettings] = useState(false);
+  const [isOpenAfterRehearsal, setIsOpenAfterRehearsal] = useState(false);
+  const [hasCompletedRehearsal, setHasCompletedRehearsal] = useLocalStorage(
+    "hasCompletedRehearsal",
+    false
+  );
   const [stepInput, setStepInput] = useLocalStorage("input", "");
   const [currentStep, setCurrentStep] = useLocalStorage("currentStep", 0);
   const [steps, setSteps] = useLocalStorage("steps", [] as Step[]);
@@ -79,6 +85,11 @@ function App() {
     setIsOpenSettings(!isOpenSettings);
   };
 
+  const handleCloseAfterRehearsal = () => {
+    setIsOpenAfterRehearsal(false);
+    setHasCompletedRehearsal(true);
+  };
+
   const handlePrevStep = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
@@ -88,6 +99,8 @@ function App() {
   const handleNextStep = () => {
     if (currentStep < steps.length) {
       setCurrentStep(currentStep + 1);
+    } else if (currentStep === steps.length) {
+      setIsOpenAfterRehearsal(true);
     }
   };
 
@@ -102,8 +115,8 @@ function App() {
           isEditingView={isEditingView}
           isOpenSidebar={isOpenSidebar}
         />
-        <div className="relative flex-1 overflow-y-auto">
-          <main className="flex flex-col h-full gap-4 py-4 px-2 sm:px-4 items-start">
+        <main className="relative flex-1 overflow-y-auto">
+          <div className="flex flex-col h-full gap-4 py-4 px-2 sm:px-4 items-start">
             {isEditingView && (
               <TextArea
                 placeholder={
@@ -136,9 +149,6 @@ function App() {
               </div>
             )}
 
-            {steps.length > 0 && currentStep === steps.length && (
-              <p>You finished</p>
-            )}
             {!!steps.length && (
               <ul className="flex flex-col-reverse gap-1 w-full flex-1 justify-end">
                 {steps?.map((step) => (
@@ -158,11 +168,14 @@ function App() {
             {/* <p className="overflow-anywhere">debug: {JSON.stringify(steps)}</p> */}
             <span>Double click to edit step</span>
             <button onClick={handleClearSteps}>Click to clear steps</button>
-          </main>
+          </div>
           {isOpenSettings && (
             <Settings handleOpenClose={handleOpenCloseSettings} />
           )}
-        </div>
+          {isOpenAfterRehearsal && !hasCompletedRehearsal && (
+            <AfterRehearsal handleClose={handleCloseAfterRehearsal} />
+          )}
+        </main>
       </div>
     </div>
   );

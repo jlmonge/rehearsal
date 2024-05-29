@@ -51,7 +51,7 @@ function Settings({ handleOpenClose }: SettingsProps) {
   return (
     <Backdrop className="flex justify-center items-center">
       <div
-        className="absolute h-2/3 w-2/3 bg-slate-300"
+        className="h-2/3 w-2/3 bg-slate-300"
         ref={settingsRef}
       >
         <button
